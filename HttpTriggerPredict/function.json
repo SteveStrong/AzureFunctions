@@ -1,5 +1,5 @@
 {
-  "scriptFile": "__init__.py",
+  "scriptFile": "helloWorld.py",
   "bindings": [
     {
       "authLevel": "anonymous",
