@@ -1,8 +1,7 @@
 azure-functions
 
 numpy
-flask-cors
-flask_restplus
+h5py
 scikit-learn
 keras
 tensorflow

@@ -18,9 +18,19 @@ from keras.models import load_model
 from keras.models import model_from_json
 from keras.models import model_from_yaml
 
+# https://www.youtube.com/watch?v=DPBspKl2epk
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import classification_report
+from sklearn.utils.multiclass import unique_labels
+from sklearn.metrics import classification_report
+from sklearn.utils.multiclass import unique_labels
+
+
 from NLPEngine import NLPEngine
 
-class Data():
+class NLPData():
     def __init__(self, df, xName, yName):
         self.xName = xName
         self.yName = yName

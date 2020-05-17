@@ -1,5 +1,5 @@
 {
-  "scriptFile": "helloWorld.py",
+  "scriptFile": "predict.py",
   "bindings": [
     {
       "authLevel": "anonymous",
