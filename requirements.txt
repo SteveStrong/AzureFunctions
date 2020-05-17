@@ -1,1 +1,9 @@
 azure-functions
+
+numpy
+flask-cors
+flask_restplus
+scikit-learn
+keras
+tensorflow
+pandas
