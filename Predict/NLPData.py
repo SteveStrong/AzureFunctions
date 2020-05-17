@@ -5,6 +5,7 @@ import pprint
 from datetime import datetime
 
 from pandas import pd
+import numpy as np
 import h5py
 import pickle
 
@@ -28,7 +29,7 @@ from sklearn.metrics import classification_report
 from sklearn.utils.multiclass import unique_labels
 
 
-from NLPEngine import NLPEngine
+import Predict.NLPEngine as en
 
 class NLPData():
     def __init__(self, df, xName, yName):
@@ -111,7 +112,7 @@ class NLPData():
         print("****************************************")
         print('*')
 
-        nlp = NLPEngine()
+        nlp = en.NLPEngine()
 
 
         nlp.modelSpec(labels, tokenizer, model)
