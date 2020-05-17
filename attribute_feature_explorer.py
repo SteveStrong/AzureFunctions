@@ -34,9 +34,6 @@ from keras.models import model_from_json
 from keras.models import model_from_yaml
 
 
-from flask import Flask
-app = Flask(__name__)
-
 # monkey patch courtesy of
 # https://github.com/noirbizarre/flask-restplus/issues/54
 # so that /swagger.json is served over https
