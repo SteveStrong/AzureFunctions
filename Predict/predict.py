@@ -8,7 +8,8 @@ from NLPEngine import NLPEngine
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function predicting request.')
 
-    nlp = NLPEngine();
+    nlp = NLPEngine()
+    print(nlp)
     nlp.load("version1")
 
     name = req.params.get('name')
