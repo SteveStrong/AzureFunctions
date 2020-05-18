@@ -28,6 +28,7 @@ from sklearn.utils.multiclass import unique_labels
 from sklearn.metrics import classification_report
 from sklearn.utils.multiclass import unique_labels
 
+from NLPEngine import nlpEngine
 
 import Predict.NLPEngine as en
 

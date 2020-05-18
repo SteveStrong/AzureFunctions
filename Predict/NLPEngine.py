@@ -21,7 +21,7 @@ from keras.models import model_from_yaml
 # remember to load requirements
 # pip install -r requirements.txt
 
-class NLPEngine():
+class nlpEngine():
     def modelSpec(self, labels, tokenizer, model):
         self.labels = labels
         self.tokenizer = tokenizer

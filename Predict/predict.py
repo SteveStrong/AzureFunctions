@@ -1,5 +1,6 @@
 import logging
-import json as json
+import json
+import sys
 import os
 import logging
 import pprint
@@ -21,6 +22,16 @@ from keras.models import model_from_yaml
 
 import azure.functions as func
 
+class PayloadWrapper:
+    def wrapList(self, payload, message=''):
+        result = {
+            'hasErrors': len(message) > 0,
+            'message': message,
+            'payloadCount': len(payload),
+            'payload': payload,
+        }
+        return json.dumps(result, indent=4, default=str)
+
 class NLPHyperEngine():
     def modelSpec(self, labels, tokenizer, model):
         self.labels = labels
@@ -39,7 +50,7 @@ class NLPHyperEngine():
         self.report = report
 
 
-    def predict(self, text:str, print:bool=True):
+    def predict(self, text:str):
      
         sentence = [text]
 
@@ -56,28 +67,18 @@ class NLPHyperEngine():
                     'predictions': items
                 }
 
-        if print:
-            pp = pprint.PrettyPrinter(indent=4,width=120)
-            pp.pprint(result)
-
         return result
 
     def load(self, name:str):
         # https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model
         pp = pprint.PrettyPrinter(indent=4,width=120)
 
-        directory = os.getcwd() +'\\NLP_' + name + '\\'
-        fileName = directory + name + '.json'
+        directory = f"Predict\\NLP_{name}\\"
+        fileName = f"{name}.json"
 
-        pp.pprint(fileName)
-        logging(fileName)
-
-
-        with open(fileName) as infile:
+        with open(directory + fileName) as infile:
             saveSpec = json.load(infile)
             
-        logging(saveSpec)
-        pp.pprint(saveSpec)
 
         self.model = load_model(directory + saveSpec['model'])
         self.model.load_weights(directory + saveSpec['weights'])
@@ -103,17 +104,19 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         text = f"The {time} Veteran did not have a psychiatric disorder in service that was unrelated to the use of drugs."
         
-        #  nlp.load("version1")
-        result = text
-        #  result = nlp.predict(text, print=True)
+        nlp.load("version1")
+        result = nlp.predict(text)
+        pw = PayloadWrapper()
     
         return func.HttpResponse(
-            body=result,
+            body= pw.wrapList([result]),
             status_code=200
         )
 
     except:
+        pw = PayloadWrapper()
+        message = sys.exc_info()[0]
         return func.HttpResponse(
-             "Please pass a name param  on the query string or in the request body",
+            body= pw.wrapList([],'Please pass a name on the query string or in the request body'),
              status_code=400
         )
