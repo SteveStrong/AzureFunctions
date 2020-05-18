@@ -83,6 +83,7 @@ class NLPData():
                     optimizer='adam',
                     metrics=['accuracy'])
 
+        model.s
         return model
 
     def train_model(self, max_words, max_epochs):

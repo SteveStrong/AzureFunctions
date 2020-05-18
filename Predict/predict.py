@@ -80,14 +80,36 @@ class NLPHyperEngine():
             saveSpec = json.load(infile)
             
 
-        self.model = load_model(directory + saveSpec['model'])
-        self.model.load_weights(directory + saveSpec['weights'])
-
         with open(directory + saveSpec['tokens'], 'rb') as handle:
             self.tokenizer = pickle.load(handle)
 
         with open(directory + saveSpec['labels'], 'rb') as handle:
             self.labels = pickle.load(handle)
+
+        self.model = load_model(directory + saveSpec['model'])
+        self.model.load_weights(directory + saveSpec['weights'])
+
+        # https: // stackoverflow.com / questions / 43971649 / dump - weights - of - cnn - in - json - using - keras
+
+
+        # # serialize model to JSON
+        # model_json = model.to_json()
+        # with open("model.json", "w") as json_file:
+        #     json_file.write(model_json)
+        # # serialize weights to HDF5
+        # model.save_weights("model.h5")
+        # print("Saved model to disk")
+        
+        # # later...
+        
+        # # load json and create model
+        # json_file = open('model.json', 'r')
+        # loaded_model_json = json_file.read()
+        # json_file.close()
+        # loaded_model = model_from_json(loaded_model_json)
+        # # load weights into new model
+        # loaded_model.load_weights("model.h5")
+        # print("Loaded model from disk")
 
         return saveSpec
 
@@ -113,10 +135,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             status_code=200
         )
 
-    except:
+    except BaseException as e:
         pw = PayloadWrapper()
-        message = sys.exc_info()[0]
+        message = "sorry"
         return func.HttpResponse(
-            body= pw.wrapList([],'Please pass a name on the query string or in the request body'),
+            body= pw.wrapList([],message),
              status_code=400
         )
